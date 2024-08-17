@@ -21,7 +21,7 @@ WINETRICKS=$PWD/Wosb.AppDir/usr/bin/winetricks
 
 rm -rf "$WINEPREFIX"
 
-$WINETRICKS -q --force dxvk dotnetdesktop7
+$WINETRICKS -q --force dxvk #dotnetdesktop7
 
 $WINE reg ADD "HKCU\\Software\\Xsolla\\3365\\204981\\default" /f /v "isInstalled" /t REG_SZ /d "true"
 $WINE reg ADD "HKCU\\Software\\Xsolla\\3365\\204981\\default" /f /v "prefix" /t REG_SZ /d "C:/Games/World of Sea Battle"

@@ -1,0 +1,11 @@
+[Desktop Entry]
+X-AppImage-Arch=x86_64
+X-AppImage-Version=v1.0.0
+X-AppImage-Name=Wosb
+Name=Wosb
+Exec=bin/bash
+Icon=wosb
+Type=Application
+Terminal=false
+Categories=Game;
+Comment=World of sea battle
