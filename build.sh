@@ -31,8 +31,7 @@ mkdir -p "$WINEPREFIX/drive_c/Games/World of Sea Battle/default"
 7z x -y $DOWNLOAD_DIR/launcher.exe -o"$WINEPREFIX/drive_c/Games/Wosb Launcher"
 # 7z x -y $DOWNLOAD_DIR/game_archive.zip -o"$WINEPREFIX/drive_c/Games/World of Sea Battle/default/game"
 
-sleep 10
+sleep 30
 sync
 chmod +x $DOWNLOAD_DIR/appimagetool.AppImage
 ARCH=x86_64 $DOWNLOAD_DIR/appimagetool.AppImage Wosb.AppDir/
-sync
