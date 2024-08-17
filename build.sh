@@ -13,6 +13,7 @@ mv $DOWNLOAD_DIR/fuse-overlayfs ./Wosb.AppDir/usr/bin/overlayfs
 chmod +x ./Wosb.AppDir/usr/bin/overlayfs
 
 # Создаем префикс
+export WINEARCH=win64
 export WINEPREFIX=$PWD/Wosb.AppDir/app/wine 
 
 WINE=$PWD/Wosb.AppDir/usr/bin/wine
