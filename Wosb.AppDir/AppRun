@@ -60,7 +60,7 @@ mkdir -p "$WINEPREFIX_RW"
   -o lowerdir="$WINEPREFIX_RO",upperdir="$WINEPREFIX_RW",workdir="$CFGDIR" "$WINEPREFIX"
 
 # Avoid symlink creation
-for i in "$WINEPREFIX/drive_c/users/$(whoami)/"{AppData,"Application Data",Contacts,Desktop,Documents,Downloads,Favorites,Links,Music,"My Documents",Pictures,"Saved Games",Searches,Videos}; do
+for i in "$WINEPREFIX/drive_c/users/$(whoami)/"{"AppData/LocalLow","Application Data/LocalLow",Contacts,Desktop,Documents,Downloads,Favorites,Links,Music,"My Documents",Pictures,"Saved Games",Searches,Videos}; do
 	# Erase symbolic link and replace with regular folder
 	[ ! -L "$i" ] || rm "$i"
 	[ -d "$i" ] || mkdir -p "$i"
