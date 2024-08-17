@@ -26,13 +26,14 @@ export DIR_CALL="$(dirname "$APPIMAGE")"
 export DIR_APP="$APPDIR"
 export WINE="$APPDIR/usr/bin/wine"
 
-CFGDIR="$(dirname "$APPIMAGE")/$(basename "$APPIMAGE").config"
+CFGDIR="$(dirname "$APPIMAGE")/.$(basename "$APPIMAGE").config"
 
 # Remove invalid characters
 CFGDIR="${CFGDIR//:/}"
 
 # Если запущенно не в терминале, то пишем лог
 if [ ! -t 1 ]; then
+	mkdir -p $CFGDIR
 	exec > $CFGDIR/Debug.log 2>&1
 fi
 
