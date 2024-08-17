@@ -1,0 +1,40 @@
+name: Build and Release Wosb AppImage
+
+on:
+  push:
+    tags:
+      - 'v*'  # Запускается при создании тега, например, v1.0.0
+  workflow_dispatch: # Возможность вручную запустить workflow
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Install dependencies
+      run: sudo apt-get install -y p7zip-full
+
+    - name: Run fetch.sh
+      run: |
+        chmod +x ./fetch.sh
+        ./fetch.sh
+
+    - name: Prepare AppDir structure
+      run: |
+        mkdir -p Wosb.AppDir/usr/bin
+        mkdir -p Wosb.AppDir/app/wine
+
+    - name: Run build.sh
+      run: |
+        chmod +x ./build.sh
+        ./build.sh
+
+    - name: Upload Wosb AppImage to GitHub Release
+      uses: softprops/action-gh-release@v1
+      with:
+        files: Wosb-x86_64.AppImage
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

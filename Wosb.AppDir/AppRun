@@ -1,0 +1,95 @@
+#!/usr/bin/env bash
+
+set -e
+
+# Флаг для запуска игры напрямую
+DIRECT_LAUNCH=false
+
+# Обработка аргументов командной строки
+while getopts "de" opt; do
+  case $opt in
+    d)
+      DIRECT_LAUNCH=true
+      ;;
+	e)
+	  export LANG=en_US.UTF-8
+	  ;;
+    *)
+      echo "Usage: $0 [-d] [-e]"
+      exit 1
+      ;;
+  esac
+done
+
+# Wine executable
+export DIR_CALL="$(dirname "$APPIMAGE")"
+export DIR_APP="$APPDIR"
+export WINE="$APPDIR/usr/bin/wine"
+
+CFGDIR="$(dirname "$APPIMAGE")/$(basename "$APPIMAGE").config"
+
+# Remove invalid characters
+CFGDIR="${CFGDIR//:/}"
+
+# Path to appimage mountpoint
+MNTDIR="$APPDIR"
+
+# Export prefix
+export WINEPREFIX="$CFGDIR/wine"
+
+function _exit() { pkill -f "overlayfs.*$WINEPREFIX"; }
+trap _exit SIGINT EXIT
+
+# Configure dirs for overlayfs
+export WINEPREFIX_RO="$MNTDIR/app/wine"
+export WINEPREFIX_RW="$CFGDIR/overlay_rw"
+
+mkdir -p "$WINEPREFIX"
+mkdir -p "$WINEPREFIX_RW"
+
+# Mount prefix with overlayfs
+# uidmapping and gidmapping: These options specify user and group ID mappings, respectively.
+# They are used to map UIDs and GIDs from the host to the overlay filesystem. The format is
+# containerID:hostID:size.
+# 0:10:100: This maps the first 100 UIDs in the container (0-99) to UIDs 10-109 on the host.
+# 100:10000:2000: This maps UIDs 100-2099 in the container to UIDs 10000-11999 on the host.
+"$APPDIR/usr/bin/overlayfs" -o uidmapping="$(id -u):$(id -u):$(id -u)" \
+  -o gidmapping="$(id -g):$(id -g):$(id -g)" \
+  -o squash_to_uid="$(id -u)" \
+  -o squash_to_gid="$(id -g)" \
+  -o lowerdir="$WINEPREFIX_RO",upperdir="$WINEPREFIX_RW",workdir="$CFGDIR" "$WINEPREFIX"
+
+# Avoid symlink creation
+for i in "$WINEPREFIX/drive_c/users/$(whoami)/"{AppData,"Application Data",Contacts,Desktop,Documents,Downloads,Favorites,Links,Music,"My Documents",Pictures,"Saved Games",Searches,Videos}; do
+	# Erase symbolic link and replace with regular folder
+	[ ! -L "$i" ] || rm "$i"
+	[ -d "$i" ] || mkdir -p "$i"
+done
+
+if [ $DIRECT_LAUNCH = true ]; then
+	echo "Запуск игры напрямую..."
+	# Enter the main executable's directory
+ 	cd "$(dirname "$CFGDIR/wine/drive_c/Games/World of Sea Battle/default/game/WorldOfSeaBattleClient.exe")"
+ 	$WINE ./WorldOfSeaBattleClient.exe
+else
+	echo "Запуск через лаунчер..."
+	set +e
+
+	cd "$(dirname "$CFGDIR/wine/drive_c/Games/Wosb Launcher/launcher.exe")"
+	$WINE ./launcher.exe
+
+	GAME_PID=$(pgrep -f "WorldOfSeaBattleClient") #GAME_PID=$(pgrep -f "${WINE} ./WorldOfSeaBattleClient.exe")
+
+	if [ -n "$GAME_PID" ]; then
+		echo "Игра запущена, ждем завершения процесса $GAME_PID..."
+		
+		Цикл, который ждет завершения процесса игры
+		while kill -0 "$GAME_PID" 2> /dev/null; do
+			sleep 1
+		done
+
+		echo "Игра завершена."
+	else
+		echo "Процесс игры не найден."
+	fi
+fi

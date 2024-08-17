@@ -1,0 +1,16 @@
+[Desktop Entry]
+Categories=Game;
+Comment[ru_RU]=World of sea battle
+Comment=World of sea battle
+Exec=AppRun
+GenericName[ru_RU]=
+GenericName=
+Icon=/usr/share/icons/Wosb
+MimeType=
+Name[ru_RU]=Wosb
+Name=Wosb
+StartupNotify=true
+Terminal=false
+Type=Application
+X-KDE-SubstituteUID=false
+X-KDE-Username=
