@@ -70,6 +70,4 @@ curl -L -o "$DOWNLOAD_DIR/fuse-overlayfs" "$FUSE_OVERLAYFS_DOWNLOAD_URL"
 echo "Скачивание последней версии Appimagetool"
 curl -L -o "$DOWNLOAD_DIR/appimagetool.AppImage" "$APPIMAGETOOL_URL"
 
-sync
-
 echo "Все файлы успешно скачаны в $DOWNLOAD_DIR."
