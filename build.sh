@@ -35,3 +35,4 @@ mkdir -p "$WINEPREFIX/drive_c/Games/World of Sea Battle/default"
 sync
 chmod +x $DOWNLOAD_DIR/appimagetool.AppImage
 ARCH=x86_64 $DOWNLOAD_DIR/appimagetool.AppImage Wosb.AppDir/
+sync
