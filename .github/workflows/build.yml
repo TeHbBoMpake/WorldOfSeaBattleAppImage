@@ -16,6 +16,11 @@ jobs:
 
     - name: Install dependencies
       run: |
+        # Загрузка и установка 7-Zip через curl
+        curl -L -o 7z2408-linux-x64.tar.xz https://www.7-zip.org/a/7z2408-linux-x64.tar.xz
+        tar -xf 7z2408-linux-x64.tar.xz
+        sudo mv 7zz /usr/local/bin/7z
+        # Установка других зависимостей
         sudo apt-get update
         sudo apt-get install -y p7zip-full xvfb
 
