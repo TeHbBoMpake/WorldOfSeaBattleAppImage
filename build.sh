@@ -28,8 +28,7 @@ $WINE reg ADD "HKCU\\Software\\Xsolla\\3365\\204981\\default" /f /v "prefix" /t 
 
 # Добавляем лаунчер и сам возб в префикс
 mkdir -p "$WINEPREFIX/drive_c/Games/World of Sea Battle/default"
-7z x -y $DOWNLOAD_DIR/launcher.exe -o"$WINEPREFIX/drive_c/Games/Wosb Launcher"
-# 7z x -y $DOWNLOAD_DIR/game_archive.zip -o"$WINEPREFIX/drive_c/Games/World of Sea Battle/default/game"
+$WINE "$DOWNLOAD_DIR/launcher.exe /S"
 
 sleep 10
 sync
