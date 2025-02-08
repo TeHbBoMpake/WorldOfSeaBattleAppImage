@@ -6,16 +6,19 @@ set -e
 DIRECT_LAUNCH=false
 
 # Обработка аргументов командной строки
-while getopts "de" opt; do
+while getopts "deu" opt; do
   case $opt in
     d)
       DIRECT_LAUNCH=true
       ;;
-	e)
-	  export LANG=en_US.UTF-8
-	  ;;
+    e)
+      export LANG=en_US.UTF-8
+      ;;
+    u)
+      UPDATE=true
+      ;;
     *)
-      echo "Usage: $0 [-d] [-e]"
+      echo "Usage: $0 [-d] [-e] [-u]"
       exit 1
       ;;
   esac
@@ -75,8 +78,11 @@ done
 if [ $DIRECT_LAUNCH = true ]; then
 	echo "Запуск игры напрямую..."
 	# Enter the main executable's directory
- 	cd "$(dirname "$CFGDIR/wine/drive_c/Games/World of Sea Battle/default/game/WorldOfSeaBattleClient.exe")"
+ 	cd "$(dirname "$WINEPREFIX/drive_c/Games/World of Sea Battle/default/game/WorldOfSeaBattleClient.exe")"
  	$WINE ./WorldOfSeaBattleClient.exe
+elif [ $UPDATE = true ]; then
+	cd "$(dirname "$WINEPREFIX/drive_c/users/$(whoami)/AppData/Local/xsolla-launcher-updater/pending/installer.exe")"
+	$WINE ./installer.exe
 else
 	echo "Запуск через лаунчер..."
 	set +e
