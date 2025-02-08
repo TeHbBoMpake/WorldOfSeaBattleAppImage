@@ -87,7 +87,7 @@ else
 	echo "Запуск через лаунчер..."
 	set +e
 
-	cd "$(dirname "$CFGDIR/wine/drive_c/Games/Wosb Launcher/launcher.exe")"
+	cd "$(dirname "$WINEPREFIX/drive_c/users/runner/AppData/Local/Wosb Launcher/launcher.exe")"
 	$WINE ./launcher.exe
 
 	PROCESS_PID=$(pgrep -f "WorldOfSeaBattleClient")
