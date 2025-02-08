@@ -82,7 +82,7 @@ if [ $DIRECT_LAUNCH = true ]; then
  	$WINE ./WorldOfSeaBattleClient.exe
 elif [ $UPDATE = true ]; then
 	cd "$(dirname "$WINEPREFIX/drive_c/users/$(whoami)/AppData/Local/xsolla-launcher-updater/pending/installer.exe")"
-	$WINE ./installer.exe
+	$WINE ./installer.exe /S
 else
 	echo "Запуск через лаунчер..."
 	set +e
