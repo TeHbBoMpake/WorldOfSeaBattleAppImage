@@ -4,6 +4,7 @@ set -e
 
 # Флаг для запуска игры напрямую
 DIRECT_LAUNCH=false
+UPDATE=false
 
 # Обработка аргументов командной строки
 while getopts "deu" opt; do
